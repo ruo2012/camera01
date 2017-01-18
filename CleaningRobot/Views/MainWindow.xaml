@@ -1,0 +1,287 @@
+﻿<Window x:Class="CleaningRobot.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CleaningRobot.Views"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:viewModels ="clr-namespace:CleaningRobot.ViewModels"
+        xmlns:userCtrl="clr-namespace:CleaningRobot.UserControls"
+        xmlns:cameraView ="clr-namespace:CameraView;assembly=CameraView"
+        xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+        xmlns:prism ="http://www.codeplex.com/prism"
+        mc:Ignorable="d"
+        Title="智能机器人操控台"
+        MinHeight="600" MinWidth="900"
+        Height="600" Width="900"
+        d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel,IsDesignTimeCreatable=True}"
+        prism:ViewModelLocator.AutoWireViewModel="True" 
+        Loaded="Window_Loaded" 
+        Icon="/CleaningRobot;component/Images/logo.ico"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid>
+        <Grid.Resources>
+            <DropShadowEffect x:Key="MouseOverEffect" Color="#686868" ShadowDepth="3"></DropShadowEffect>
+            <Style  TargetType="{x:Type Label}">
+                <Setter Property="FontSize" Value="18"></Setter>
+                <Setter Property="Foreground" Value="Black" ></Setter>
+                <Setter Property="FontFamily" Value="楷体"></Setter>
+                <!--<Setter Property="FontWeight" Value="Bold"></Setter>-->
+            </Style>
+            <Style TargetType="{x:Type Button}">
+                <Setter Property="FontSize" Value="18"></Setter>
+                <Setter Property="Foreground" Value="White" ></Setter>
+                <Setter Property="Background" Value="#67C1E7"></Setter>
+                <Setter Property="Width" Value="70"></Setter>
+                <Setter Property="Height" Value="40"></Setter>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border x:Name="Chrome" CornerRadius="15" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                                <Border.Effect>
+                                    <DropShadowEffect  Color="#686868" ShadowDepth="1"></DropShadowEffect>
+                                </Border.Effect>
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                </ContentPresenter>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger  Property="IsMouseOver"  Value="true">
+                                    <Setter Property="Effect" Value="{StaticResource MouseOverEffect}"></Setter>
+                                </Trigger>
+                                <Trigger  Property="IsPressed"  Value="true">
+                                    <Setter Property="Effect" Value="{x:Null}"></Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Grid.Resources>
+
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="115*"></ColumnDefinition>
+            <ColumnDefinition Width="9*"/>
+            <ColumnDefinition Width="248*"></ColumnDefinition>
+            <ColumnDefinition Width="110*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+
+        <!--左侧控制区-->
+        <Grid Grid.ColumnSpan="2" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="2.5*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel>
+                <Label Content="WIFI信号:"/>
+                <Label Content="{Binding WifiName,Mode=TwoWay}" 
+                       Foreground="#67C1E7"
+                       />
+            </StackPanel>
+
+            <StackPanel Grid.Row="1">
+                <Label>运动控制:</Label>
+                <StackPanel Orientation="Horizontal">
+                    <Label>速度
+                    </Label>
+                    <TextBox Text="1" 
+                             FontSize="18"
+                             Width="50" 
+                             Height="23"
+                             HorizontalAlignment="Center"
+                             IsReadOnly="True"
+                             />
+                    <Label>m/min
+                    </Label>
+                </StackPanel>
+                <!--<Label HorizontalAlignment="Center">
+                     </Label>-->
+            </StackPanel>
+            <Grid Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Button VerticalAlignment="Bottom" 
+                        Background="Transparent" 
+                        Margin="5"  
+                        Grid.Column="1" 
+                        Grid.Row="0"
+                        Command="{Binding UpCommand}">
+                    <Image Margin="-20" 
+                           Source="../Images/Arrow.png"></Image>
+                </Button>
+                <Button Background="Transparent" Margin="5"  Grid.Column="0" Grid.Row="1"
+                        Command="{Binding LeftCommand}">
+                    <Image Margin="-20" Source="../Images/Arrow.png">
+                        <Image.LayoutTransform>
+                            <RotateTransform Angle="270"></RotateTransform>
+                        </Image.LayoutTransform>
+                    </Image>
+                </Button>
+                <Button VerticalAlignment="top" Background="Transparent" Margin="5"  Grid.Column="1" Grid.Row="2"
+                        Command="{Binding DownCommand}">
+                    <Image Margin="-20" Source="../Images/Arrow.png">
+                        <Image.LayoutTransform>
+                            <RotateTransform Angle="180"></RotateTransform>
+                        </Image.LayoutTransform>
+                    </Image>
+                </Button>
+                <Button Background="Transparent" Margin="5"  Grid.Column="2" Grid.Row="1"
+                        Command="{Binding RightCommand}">
+                    <Image Margin="-20" Source="../Images/Arrow.png">
+                        <Image.LayoutTransform>
+                            <RotateTransform Angle="90"></RotateTransform>
+                        </Image.LayoutTransform>
+                    </Image>
+                </Button>
+                <Button Background="#33ABCE" Margin="3,10"  Grid.Column="1" Grid.Row="1"/>
+            </Grid>
+
+            <Button Margin="10" Grid.Row="3" HorizontalAlignment="Left"
+                    Command="{Binding TurboCommand}"
+                    Content="加速" />
+            <Button Margin="10" Grid.Row="3"  HorizontalAlignment="Right"
+                    Command="{Binding DecelerateCommand}" 
+                    Content="减速"/>
+            <StackPanel Grid.Row="4">
+                <Label Content="压强"/>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="左"/>
+                    <TextBox Text="1" 
+                             FontSize="18"
+                             Width="40" 
+                             Height="23"
+                             HorizontalAlignment="Center"
+                             IsReadOnly="True"
+                             />
+                    <Label Content="kpa右"/>
+                    <TextBox Text="1" 
+                             FontSize="18"
+                             Width="40" 
+                             Height="23"
+                             HorizontalAlignment="Center"
+                             IsReadOnly="True"
+                             />
+                    <Label Content="kpa"/>
+                </StackPanel>
+
+            </StackPanel>
+        </Grid>
+        <!--中部视频区-->
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="4*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <!--<Rectangle x:Name="webcamDisplay"/>-->
+
+            <Border Margin="5" Background="#67C1E7" BorderBrush="Gray" BorderThickness="2">
+                <!--<userCtrl:CameraControl x:Name="imgVideo"/>-->
+                <WindowsFormsHost x:Name="wfCameraWindow">
+                    <cameraView:CameraWindow x:Name="cameraWindow"/>
+                </WindowsFormsHost>
+            </Border>
+            <Button  Margin="60,25,10,25" 
+                     Grid.Row="1" 
+                     HorizontalAlignment="Left" 
+                     Width="80"
+                     Content="拍照"
+                     Command="{Binding ScreenshotCommand}"/>
+
+            <controls:ToggleSwitchButton 
+                Command="{Binding OpsCameraCommand}" 
+                IsChecked="{Binding CameraIsChecked,Mode=TwoWay}" 
+                Grid.Row="1" Width="80"/>
+
+            <Button Margin="10,25,60,25" 
+                    Grid.Row="1"  
+                    HorizontalAlignment="Right" 
+                    Width="80" 
+                    Content="录像"
+                    Command="{Binding VideotapeCommand}"/>
+        </Grid>
+        <!--右侧控制区-->
+        <Grid Grid.Column="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="4*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0">
+                <Label>摄像头操作:</Label>
+                <StackPanel Orientation="Horizontal">
+                    <Button Margin="10"
+                            Command="{Binding CameraLeftCommand}">左偏</Button>
+                    <Button Margin="10"
+                            Command="{Binding CameraRightCommand}">右偏</Button>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Grid.Row="1">
+                <Label>清洗控制:</Label>
+                <Grid  Margin="0,20,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Margin="10,0,0,0">雨刮</Label>
+                    <controls:ToggleSwitchButton Margin="0,0,10,0" Grid.Column="1" HorizontalAlignment="Right" Width="80"
+                                                 Command="{Binding WiperCommand}"/>
+                </Grid>
+                <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                    <Button Margin="10"
+                            Command="{Binding WiperTurbeCommand}"
+                            Content="加速"/>
+                    <Button Margin="10"
+                            Command="{Binding WiperDecelerateCommand}"
+                            Content="减速"/>
+                </StackPanel>
+                <Grid Margin="0,20,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Margin="10,0,0,0">喷水</Label>
+                    <controls:ToggleSwitchButton Margin="0,0,10,0" Grid.Column="1" HorizontalAlignment="Right" Width="80"
+                                                 Command="{Binding SprayCmd.SprayCommand}"/>
+                </Grid >
+                <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                    <Button Margin="10"
+                            Command="{Binding SprayCmd.SprayTurbeCommand}">加速</Button>
+                    <Button Margin="10"
+                            Command="{Binding SprayCmd.SprayDecelerateCommand}">减速</Button>
+                </StackPanel>
+                <Grid  Margin="0,20,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Margin="10,0,0,0">风机</Label>
+                    <controls:ToggleSwitchButton 
+                        Margin="0,0,10,0" 
+                        Grid.Column="1" 
+                        HorizontalAlignment="Right" 
+                        Width="80"
+                        Command="{Binding FanCommand}"/>
+                </Grid>
+                <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                    <Button Margin="10"
+                            Command="{Binding FanTurbeCommand}">加速</Button>
+                    <Button Margin="10"
+                            Command="{Binding FanDecelerateCommand}">减速</Button>
+                </StackPanel>
+
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

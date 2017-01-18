@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleaningRobot", "CleaningRobot\CleaningRobot.csproj", "{003C9101-3A8A-4953-81BB-5B9D78785ADD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLib", "CommandLib\CommandLib.csproj", "{8D848D72-766C-46C4-8956-F328132E3DF0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CameraView", "CameraView\CameraView.csproj", "{B99F53B1-0742-4BC6-9441-B39216108489}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{003C9101-3A8A-4953-81BB-5B9D78785ADD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{003C9101-3A8A-4953-81BB-5B9D78785ADD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{003C9101-3A8A-4953-81BB-5B9D78785ADD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{003C9101-3A8A-4953-81BB-5B9D78785ADD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D848D72-766C-46C4-8956-F328132E3DF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D848D72-766C-46C4-8956-F328132E3DF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D848D72-766C-46C4-8956-F328132E3DF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D848D72-766C-46C4-8956-F328132E3DF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B99F53B1-0742-4BC6-9441-B39216108489}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B99F53B1-0742-4BC6-9441-B39216108489}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B99F53B1-0742-4BC6-9441-B39216108489}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B99F53B1-0742-4BC6-9441-B39216108489}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
